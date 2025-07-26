@@ -41,7 +41,7 @@ KARINA/
 ├── .devcontainer/               # VS Code Dev Container config
 │   └── devcontainer.json
 │
-├── .dfx/                        # Folder build lokal DFX (abaikan dalam git)
+├── .dfx/                       
 │   └── local/
 │       └── canisters/
 │           └── backend/
@@ -62,33 +62,33 @@ KARINA/
 │           ├── Blob.mo
 │           └── ... (file Motoko standar)
 │
-├── backend/                     # Kode utama backend dalam Motoko
+├── backend/                    
 │   └── app.mo
 │
-├── frontend/                    # Antarmuka pengguna
-│   ├── index.html               # (kalau ada)
+├── frontend/                   
+│   ├── index.html               
 │   ├── analisis.html
 │   ├── calendar.html
 │   ├── auth.js
 │   ├── chart.js
-│   ├── styles.css               # (jika ada)
-│   └── declarations/           # Output build DFX (auto-generated)
+│   ├── styles.css             
+│   └── declarations/          
 │       └── backend/
 │           ├── backend.did
 │           ├── backend.most
 │           ├── service.did
 │           └── service.did.js
 │
-├── dfx.json                     # Konfigurasi proyek Internet Computer
-├── mops.toml                    # Dependency config Motoko
-├── package.json                 # Config project frontend (Node.js)
-├── vite.config.js               # Config bundler Vite
-├── .env                         # Environment variable
-├── dfx_deploy_auto.sh           # Skrip deploy otomatis
-├── dfx_reset.sh                 # Skrip reset environment
-├── .gitignore                   # File/folder yang diabaikan Git
-├── README.md                    # Dokumentasi proyek
-└── BUILD.md                     # Panduan build dan deploy
+├── dfx.json                    
+├── mops.toml                   
+├── package.json                
+├── vite.config.js              
+├── .env                         
+├── dfx_deploy_auto.sh          
+├── dfx_reset.sh                
+├── .gitignore                  
+├── README.md                    
+└── BUILD.md                    
 
 ```
 ---
