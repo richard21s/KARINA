@@ -38,18 +38,58 @@ Many people struggle to clearly plan their home financing — especially underst
 ## 📂 Project Structure
 ```
 KARINA/
+├── .devcontainer/               # VS Code Dev Container config
+│   └── devcontainer.json
 │
-├── backend/            # Contains mortgage simulation logic in Motoko
+├── .dfx/                        # Folder build lokal DFX (abaikan dalam git)
+│   └── local/
+│       └── canisters/
+│           └── backend/
+│               ├── backend.did
+│               ├── backend.most
+│               ├── backend.old.most
+│               ├── backend.wasm
+│               ├── constructor.did
+│               ├── index.js
+│               ├── init_args.txt
+│               ├── service.did
+│               └── service.did.js
+│
+├── .mops/                       # Dependencies Motoko
+│   └── base@0.14.9/
+│       └── src/
+│           ├── Array.mo
+│           ├── Blob.mo
+│           └── ... (file Motoko standar)
+│
+├── backend/                     # Kode utama backend dalam Motoko
 │   └── app.mo
 │
-├── frontend/           # Contains user interface (HTML, JS, CSS)
-│   ├── index.html
-│   ├── main.js
-│   └── styles.css
+├── frontend/                    # Antarmuka pengguna
+│   ├── index.html               # (kalau ada)
+│   ├── analisis.html
+│   ├── calendar.html
+│   ├── auth.js
+│   ├── chart.js
+│   ├── styles.css               # (jika ada)
+│   └── declarations/           # Output build DFX (auto-generated)
+│       └── backend/
+│           ├── backend.did
+│           ├── backend.most
+│           ├── service.did
+│           └── service.did.js
 │
-├── dfx.json            # Internet Computer configuration
-├── mops.toml           # Motoko dependency management
-└── README.md           # Project documentation
+├── dfx.json                     # Konfigurasi proyek Internet Computer
+├── mops.toml                    # Dependency config Motoko
+├── package.json                 # Config project frontend (Node.js)
+├── vite.config.js               # Config bundler Vite
+├── .env                         # Environment variable
+├── dfx_deploy_auto.sh           # Skrip deploy otomatis
+├── dfx_reset.sh                 # Skrip reset environment
+├── .gitignore                   # File/folder yang diabaikan Git
+├── README.md                    # Dokumentasi proyek
+└── BUILD.md                     # Panduan build dan deploy
+
 ```
 ---
 
