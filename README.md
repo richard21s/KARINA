@@ -1,26 +1,95 @@
-# Hello, world!
+# KARINA — AI-Powered Mortgage Simulation on ICP
 
-"Hello, world!" projects are a common starting point for developers learning new languages or platforms, as it provides a simple demonstration of how a programming language can be written for an application.
+**ICP Hackathon Project | Web3 + Smart Mortgage Planning**
 
-This application's logic is written in [Motoko](https://internetcomputer.org/docs/motoko/main/getting-started/motoko-introduction), a programming language designed specifically for developing canisters on ICP.
+**KARINA** is a Web3-based mortgage (KPR) simulation application that leverages the power of **AI and the Internet Computer (ICP) blockchain**. With an intuitive interface and Motoko-powered backend, this app allows users to **strategically plan their mortgage**, analyze interest rates, simulate early repayments, and integrate their schedule into calendars.
 
-## Deploying from ICP Ninja
+---
 
-When viewing this project in ICP Ninja, you can deploy it directly to the mainnet for free by clicking "Deploy" in the upper right corner. Open this project in ICP Ninja:
+## 🎯 Problem Statement
 
-[![](https://icp.ninja/assets/open.svg)](https://icp.ninja/i?g=https://github.com/dfinity/examples/motoko/hello_world)
+Many people struggle to clearly plan their home financing — especially understanding the impact of early payments, floating interest, or penalties. Conventional mortgage calculators are often static, rigid, and non-transparent.
 
-## Project structure
+**KARINA offers a modern solution: decentralized, intelligent, and transparent.**
 
-The `/backend` folder contains the Motoko canister, `app.mo`. The `/frontend` folder contains web assets for the application's user interface. The user interface is written with plain JavaScript, but any frontend framework can be used.
+---
 
-Edit the `mops.toml` file to add [Motoko dependencies](https://mops.one/) to the project.
+## 🚀 Key Features
 
+- 🧮 **Flexible Mortgage Simulation:** Input key loan data (amount, tenor, interest rate, etc.)
+- 🔁 **Add Custom Interest Schemes, Early Payments & Penalties**
+- 🧠 **AI-Powered Analysis:** Get insights based on your mortgage plan
+- 📊 **Interactive Charts:** Visualize loan principal vs interest over time
+- 🕒 **History & Calendar Integration:** Track your simulation history and set up payment reminders
+- 🔐 **Motoko Backend on ICP:** Ensures transparency and trustless execution
 
-## Build and deploy from the command-line
+---
 
-To migrate your ICP Ninja project off of the web browser and develop it locally, follow these steps. These steps are necessary if you want to deploy this project for long-term, production use on the mainnet.
+## 🧱 Technology Stack
 
-### 1. Download your project from ICP Ninja using the 'Download files' button on the upper left corner under the pink ninja star icon.
+| Layer          | Technology                  |
+| -------------- | --------------------------- |
+| Smart Contract | Motoko (Internet Computer)  |
+| Frontend       | HTML, CSS, JavaScript       |
+| Dev Tools      | Vite, DFX, MOPS             |
 
-### 2. Open the `BUILD.md` file for further instructions.
+---
+
+## 📂 Project Structure
+```
+KARINA/
+│
+├── backend/            # Contains mortgage simulation logic in Motoko
+│   └── app.mo
+│
+├── frontend/           # Contains user interface (HTML, JS, CSS)
+│   ├── index.html
+│   ├── main.js
+│   └── styles.css
+│
+├── dfx.json            # Internet Computer configuration
+├── mops.toml           # Motoko dependency management
+└── README.md           # Project documentation
+```
+---
+
+## 🛠️ Getting Started
+
+1. **Clone the repository:**
+
+```
+git clone https://github.com/username/KARINA.git
+cd KARINA
+```
+
+2. **Install and run the frontend:**
+```
+cd frontend
+npm install
+npm run dev
+```
+
+3. **Run the backend locally using DFX:**
+```
+dfx start --background
+dfx deploy
+```
+
+---
+
+## 🌐 Why Internet Computer?
+
+The Internet Computer (ICP) provides **security, speed, and scalability** for Web3 applications without relying on traditional servers or third-party bridges. Our backend is written entirely in Motoko to ensure transparent and reliable mortgage logic.
+
+---
+
+## 🤝 Contributions
+
+We welcome contributions to help enhance the project further — including integrating stablecoin support, decentralized identity, or financial APIs.
+
+---
+
+## 📄 License
+
+MIT License
+
