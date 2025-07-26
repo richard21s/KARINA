@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>AI KPR Tracker</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+</head>
+
+<body>
+  <h2>Simulasi KPR & Analisis AI</h2>
+
+  <!-- 🔒 Login Internet Identity (opsional, dev dinonaktifkan) -->
+  <!--
+  <button id="loginBtn">🔐 Login Internet Identity</button>
+  <div id="loginStatus"></div>
+  -->
+  <div id="loginStatus"></div>
+
+  <form>
+    <label for="harga">Harga Rumah</label>
+    <input id="harga" type="number" required />
+
+    <label for="dp">Uang Muka (DP)</label>
+    <input id="dp" type="number" required />
+
+    <label for="tenor">Tenor (tahun)</label>
+    <input id="tenor" type="number" required />
+
+    <label for="cicilan">Cicilan per Bulan</label>
+    <input id="cicilan" type="number" required />
+
+    <label for="mulai">Tanggal Mulai</label>
+    <input id="mulai" type="date" required />
+
+    <label for="keterangan">Keterangan (opsional)</label>
+    <input id="keterangan" type="text" placeholder="Contoh: Take Over Bank A ke BTN" />
+
+    <!-- 🔢 Skema Bunga -->
+    <h3>Skema Bunga</h3>
+    <div id="bungaSkema"></div>
+    <button type="button" id="addSkema">+ Tambah Skema Bunga</button>
+
+    <!-- 💵 Pelunasan Ekstra -->
+    <h3>Pelunasan Ekstra</h3>
+    <div id="pelunasanEkstra"></div>
+    <button type="button" id="addPelunasan">+ Tambah Pelunasan Ekstra</button>
+
+    <!-- ⚠️ Penalti Pembayaran -->
+    <h3>Penalti Pembayaran</h3>
+    <div id="penaltiPembayaran"></div>
+    <button type="button" id="addPenalti">+ Tambah Penalti Pembayaran</button>
+
+    <br /><br />
+    <button type="submit">Simpan & Analisa AI</button>
+  </form>
+  <button id="downloadICS">📅 Tambahkan Jadwal ke Kalender</button>
+  <p style="font-size: 0.9em;">
+    File ini berisi semua cicilan KPR kamu. Setelah diunduh, <b>klik dua kali atau impor ke Google Calendar</b>.
+  </p>
+  <button id="lihatHistoriBtn">📜 Lihat Histori KPR Saya</button>
+  <pre id="historiOutput" style="white-space: pre-wrap; margin-top: 1em;"></pre>
+
+  <div style="position: relative; height: 400px; width: 100%;">
+    <canvas id="grafikKPR"></canvas>
+  </div>
+  <div style="margin-top: 1em;">
+    <label>Bulan ke-</label>
+    <input type="range" id="sliderStart" min="1" value="1" style="width: 150px;">
+    <span id="rangeDisplay">1 – 60</span>
+    <input type="range" id="sliderEnd" min="1" value="60" style="width: 150px;">
+  </div>
+  <button onclick="currentChart.resetZoom()">🔄 Reset Zoom</button>
+  <button id="exportCSV" style="display:none;">Download CSV</button>
+
+  <section id="greeting"></section>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>

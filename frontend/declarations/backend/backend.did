@@ -1,0 +1,44 @@
+type Penalti = 
+ record {
+   bulan: nat;
+   jenis: text;
+   persen: float64;
+ };
+type KPRData = 
+ record {
+   bungaSkema: vec InterestPeriod;
+   dp: nat;
+   hargaRumah: nat;
+   hasilAI: text;
+   keterangan: text;
+   pelunasanEkstra: vec record {
+                          nat;
+                          nat;
+                        };
+   penalti: vec Penalti;
+   tanggalAnalisa: text;
+   tanggalMulai: text;
+   tenorBulan: nat;
+ };
+type InterestPeriod = 
+ record {
+   bungaTahunan: float64;
+   cicilanBulanan: nat;
+   tahunMulai: nat;
+   tahunSelesai: nat;
+   tipe: text;
+ };
+service : {
+  getKPR: (email: text) -> (vec KPRData) query;
+  getSimulasi: (email: text, index: nat) ->
+   (vec record {
+          nat;
+          float64;
+          float64;
+          float64;
+        }) query;
+  login: (email: text, passwordHash: text) -> (bool) query;
+  loginWithGoogle: (email: text) -> (text);
+  register: (email: text, passwordHash: text) -> (text);
+  saveKPR: (email: text, data: KPRData) -> ();
+}

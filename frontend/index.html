@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - AI KPR Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&family=Lato:wght@600&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    .blur-circle {
+      width: 600px;
+      height: 600px;
+      position: absolute;
+      background: rgba(74, 90, 236, 0.16);
+      box-shadow: 280px 280px 280px rgba(74, 90, 236, 0.16);
+      border-radius: 9999px;
+      filter: blur(140px);
+    }
+
+    .form-box {
+      position: absolute;
+      top: 300px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 640px;
+      color: white;
+    }
+
+    .input-field {
+      width: 100%;
+      height: 50px;
+      margin-bottom: 20px;
+      padding: 0 20px;
+      background: rgba(1, 1, 2, 0.1);
+      box-shadow: 0 0 15.5px #4E5ABD inset;
+      border-radius: 30px;
+      backdrop-filter: blur(12.5px);
+      border: none;
+      color: white;
+      font-size: 14px;
+      font-family: Poppins;
+      font-weight: 300;
+    }
+
+    .label {
+      color: white;
+      font-size: 14px;
+      font-family: Poppins;
+      font-weight: 300;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .button-primary,
+    .button-google {
+      width: 310px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px auto 0 auto;
+      background: linear-gradient(180deg, rgba(78, 91, 189, 0.80), rgba(36, 52, 87, 0.80));
+      box-shadow: 0px 0px 15px #4A5AEC inset;
+      border-radius: 30px;
+      color: #D9D9D9;
+      font-size: 16px;
+      font-family: Poppins;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      gap: 10px;
+      text-transform: uppercase;
+    }
+
+    .forgot-password {
+      color: #B7B4B4;
+      font-size: 14px;
+      font-family: Poppins;
+      font-weight: 500;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .register {
+      font-size: 12px;
+      font-family: Poppins;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .register span {
+      color: #D9D9D9;
+    }
+
+    .register a {
+      color: #4E5BBD;
+      text-decoration: none;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    .brand {
+      position: absolute;
+      top: 242px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 30px;
+      font-family: Lato;
+      font-weight: 600;
+      line-height: 26.77px;
+      letter-spacing: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background circles -->
+  <div class="blur-circle" style="left: -200px; top: 219px;"></div>
+  <div class="blur-circle" style="left: 1045px; top: 219px;"></div>
+
+  <!-- Branding -->
+  <div class="brand">KARINA</div>
+
+  <!-- Login/Register Form -->
+  <div class="form-box">
+    <!-- <form id="auth-form"> SOON
+      <label for="email" class="label">Email:</label>
+      <input type="email" id="email" class="input-field" placeholder="Enter your email" required>
+
+      <label for="password" class="label">Password:</label>
+      <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+
+      <button type="submit" class="button-primary" id="submit-btn">Sign In</button>
+    </form>
+
+    <div class="forgot-password">Forgot Password</div> -->
+
+    <!-- Internet Identity Login -->
+    <button class="button-google" id="ii-signin">
+      <img src="https://identitysupport.dfinity.org/hc/theming_assets/01HZPAQP10D0TDE2HSZH52B5EF" alt="II" width="24" height="24"
+        style="border-radius: 6px;">
+      Login with Internet Identity
+    </button>
+
+    <!-- Google OAuth Login -->
+    <button class="button-google" id="google-signin">
+      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" width="24" height="24"
+        style="border-radius: 6px;">
+      Continue with Google
+    </button>
+
+    <!-- Toggle Register/Login   SOON
+    <div class="register">
+      <span id="toggle-text">Don’t have an account?</span>
+      <a href="#" id="toggle-auth">Register here</a>
+    </div> -->
+  </div>
+
+  <!-- Load auth.js module -->
+  <script type="module" src="auth.js"></script>
+</body>
+
+</html>

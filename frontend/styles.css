@@ -1,0 +1,40 @@
+body {
+  padding: 20px;
+  font-family: sans-serif;
+  max-width: 600px;
+  margin: auto;
+  font-size: 1.1rem;
+}
+
+label {
+  display: block;
+  margin: 12px 0 4px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+#bunga-container {
+  margin-bottom: 10px;
+  border: 1px dashed #aaa;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+#greeting {
+  margin-top: 20px;
+  border: 1px solid #222;
+  padding: 15px;
+  display: none;
+  white-space: pre-line;
+}

@@ -1,0 +1,28 @@
+// Version: 1.0.0
+type InterestPeriod__130099902 =
+  {
+    bungaTahunan : Float;
+    cicilanBulanan : Nat;
+    tahunMulai : Nat;
+    tahunSelesai : Nat;
+    tipe : Text
+  };
+type KPRData__167639876 =
+  {
+    bungaSkema : [InterestPeriod__130099902];
+    dp : Nat;
+    hargaRumah : Nat;
+    hasilAI : Text;
+    keterangan : Text;
+    pelunasanEkstra : [(Nat, Nat)];
+    penalti : [Penalti__146951768];
+    tanggalAnalisa : Text;
+    tanggalMulai : Text;
+    tenorBulan : Nat
+  };
+type Penalti__146951768 = {bulan : Nat; jenis : Text; persen : Float};
+type User__375037627 = {email : Text; passwordHash : Text};
+actor {
+  stable var kprStore : [(Text, [KPRData__167639876])];
+  stable var userStore : [(Text, User__375037627)]
+};

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Mortgage Simulation - Home</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="home.css" />
+  
+</head>
+
+<body>
+  <!-- ✅ Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-avatar"></div>
+      <div class="sidebar-username">Anonimous</div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">MENU</div>
+
+      <div class="sidebar-item">
+        <div class="sidebar-icon"></div>
+        <div class="sidebar-label">Home</div>
+      </div>
+
+      <div class="sidebar-item main">
+        <div class="sidebar-icon"></div>
+        <div class="sidebar-label">AI Mortgage Simulation</div>
+      </div>
+
+      <div class="sidebar-item history">
+        <div class="sidebar-icon"></div>
+        <div class="sidebar-label">History</div>
+      </div>
+
+      <div class="sidebar-item calendar">
+        <div class="sidebar-icon"></div>
+        <div class="sidebar-label">Calendar</div>
+      </div>
+
+      <div class="sidebar-item logout">
+        <div class="sidebar-icon"></div>
+        <div class="sidebar-label">Log Out</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ✅ Konten utama -->
+  <div class="container">
+    <div class="main-content">
+      <!-- ✅ Header -->
+      <header class="header">
+        <!-- Hamburger pindah ke sini -->
+        <div class="header-left">
+          <div id="hamburger" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="logo">KARINA</div>
+        </div>
+        <button class="contact-btn">Contact Us</button>
+      </header>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>Welcome back to</h1>
+        <h1>the AI Mortgage Simulation.</h1>
+        <div class="welcome">Hello, Anonimous</div>
+        <div class="tagline">“Start a new simulation or continue from your last analysis history.”</div>
+      </section>
+
+      <!-- Last Analysis -->
+      <section>
+        <h2 class="section-title">Your Last Mortgage Analysis</h2>
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+          <button class="check-btn">Check It</button>
+        </div>
+        <img class="history-img" src="https://placehold.co/735x466" alt="Simulation Result" />
+      </section>
+
+      <!-- Quick Actions -->
+      <section>
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="quick-actions">
+          <div class="action-card">
+            <h3>AI Mortgage Simulation</h3>
+            <p>Try new loan scenarios with AI analysis results</p>
+            <button class="check-btn" onclick="location.href='analisis.html'">Get Started</button>
+          </div>
+          <div class="action-card">
+            <h3>History</h3>
+            <p>Browse previous simulations</p>
+            <button class="check-btn" onclick="location.href='history.html'">History</button>
+          </div>
+          <div class="action-card">
+            <h3>Calendar</h3>
+            <p>Set up a repayment schedule</p>
+            <button class="check-btn" onclick="location.href='calendar.html'">See Calendar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-columns">
+          <div class="footer-column">
+            <div class="logo" style="letter-spacing: 10px; font-size: 20px;">KARINA</div>
+          </div>
+          <div class="footer-column">
+            <h4>Quick links</h4>
+            <ul>
+              <li>Home</li>
+              <li>Features</li>
+              <li>Community</li>
+              <li>Support</li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Help</h4>
+            <ul>
+              <li>Help Centre</li>
+              <li>FAQ</li>
+              <li>Forum</li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Social Media</h4>
+            <ul>
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>LinkedIn</li>
+            </ul>
+          </div>
+          <div class="footer-mailing">
+            <h4>Join our mailing list for updates</h4>
+            <input type="email" placeholder="Your email address" />
+          </div>
+        </div>
+        <div class="footer-bottom">
+          © 2025. All rights reserved.
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ✅ Script toggle sidebar -->
+  <script type="module">
+    import { AuthClient } from "https://cdn.jsdelivr.net/npm/@dfinity/auth-client@latest/+esm";
+    const principal = localStorage.getItem("principal");
+    const token = localStorage.getItem("googleAccessToken");
+    const email = localStorage.getItem("googleEmail"); // Sama untuk Google & II
+    const userEmailEl = document.querySelector('.sidebar-username');
+    const welcomeEl = document.querySelector('.welcome');
+    const avatarEl = document.querySelector('.sidebar-avatar');
+
+    // Cek login & email
+    if ((!token && !principal) || !email || !email.includes("@")) {
+      alert("Anda belum login atau belum mengisi email. Silakan login terlebih dahulu.");
+      window.location.href = "index.html";
+    } else if (token) {
+      // Google login
+      fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(response => {
+          if (!response.ok) throw new Error("Token tidak valid atau expired");
+          return response.json();
+        })
+        .then(user => {
+          console.log("✅ Google user info:", user);
+          localStorage.setItem("email", user.email); // Opsional: bisa dipakai untuk fitur lain
+          userEmailEl.innerText = user.name || user.email;
+          welcomeEl.innerText = `Hello, ${user.given_name || user.name || "User"}`;
+          if (user.picture) {
+            avatarEl.innerHTML = `<img src="${user.picture}" alt="Avatar" />`;
+          }
+        })
+        .catch(err => {
+          console.error("❌ Gagal mengambil user info Google:", err);
+          alert("Login expired atau gagal ambil data. Silakan login ulang.");
+          window.location.href = "index.html";
+        });
+    } else if (principal) {
+      // Internet Identity login
+      console.log("✅ Internet Identity principal:", principal);
+      const email = localStorage.getItem("googleEmail");
+      userEmailEl.innerText = email || `Principal: ${principal}`;
+      welcomeEl.innerText = `Hello, ${email || "Internet Identity user"}`;
+      avatarEl.innerHTML = `<img src="https://avatars.githubusercontent.com/u/61081342?s=200&v=4" alt="II" width="40" height="40" style="border-radius: 6px;">`;
+    }
+
+    // Sidebar toggle
+    const hamburger = document.getElementById('hamburger');
+    const body = document.body;
+
+    hamburger.addEventListener('click', () => {
+      body.classList.toggle('sidebar-visible');
+      hamburger.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      const isClickInsideSidebar = e.target.closest('.sidebar');
+      const isClickOnHamburger = e.target.closest('#hamburger');
+
+      if (!isClickInsideSidebar && !isClickOnHamburger) {
+        body.classList.remove('sidebar-visible');
+        hamburger.classList.remove('open');
+      }
+    });
+
+    document.querySelector('.main')?.addEventListener('click', () => {
+      window.location.href = "analisis.html";
+    });
+    document.querySelector('.history')?.addEventListener('click', () => {
+      window.location.href = "history.html";
+    });
+    document.querySelector('.calendar')?.addEventListener('click', () => {
+      window.location.href = "calendar.html";
+    });
+
+    // Logout handler
+      document.querySelector('.logout')?.addEventListener('click', async () => {
+          const token = localStorage.getItem("googleAccessToken");
+          const principal = localStorage.getItem("principal");
+
+          // Revoke token Google jika tersedia
+          if (token) {
+            try {
+              await fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`, {
+                method: 'GET',
+                mode: 'no-cors'
+              });
+              console.log("✅ Google token revoked");
+            } catch (e) {
+              console.warn("⚠️ Gagal revoke token Google, lanjutkan logout lokal");
+            }
+          }
+
+          // Logout dari Internet Identity (auth-client)
+          try {
+            const authClient = await AuthClient.create();
+            await authClient.logout();
+            console.log("✅ Internet Identity logout sukses");
+          } catch (e) {
+            console.warn("⚠️ Gagal logout Internet Identity:", e);
+          }
+
+          // Bersihkan semua data dari localStorage
+          localStorage.removeItem("googleAccessToken");
+          localStorage.removeItem("registeredEmails");
+          localStorage.removeItem("principal");
+          localStorage.removeItem("loggedIn");
+          localStorage.removeItem("googleEmail"); // gunakan 1 key untuk semua email pengguna
+
+          // Redirect ke login page dan hindari cache
+          window.location.href = "index.html?logout=" + new Date().getTime();
+        });
+
+
+  </script>
+
+
+
+</body>
+
+</html>

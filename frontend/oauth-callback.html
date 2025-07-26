@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Google OAuth Callback</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Sedang memproses login Google... Mohon tunggu.</p>
+
+    <script>
+        (async function () {
+            const fragment = new URLSearchParams(window.location.hash.substring(1));
+            const accessToken = fragment.get("access_token");
+
+            if (accessToken) {
+                // Simpan access token ke localStorage
+                localStorage.setItem("googleAccessToken", accessToken);
+
+                try {
+                    // Ambil data user dari Google API
+                    const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+
+                    const profile = await res.json();
+
+                    if (profile && profile.email) {
+                        // Simpan email ke localStorage
+                        localStorage.setItem("googleEmail", profile.email);
+                    } else {
+                        console.warn("Email tidak ditemukan di profil Google.");
+                    }
+                } catch (error) {
+                    console.error("Gagal mengambil data profil Google:", error);
+                }
+
+                // Redirect ke halaman home setelah login selesai
+                window.location.href = "home.html";
+            } else {
+                document.body.innerHTML = "<p>Gagal login Google. Token tidak ditemukan.</p>";
+            }
+        })();
+    </script>
+</body>
+
+</html>
