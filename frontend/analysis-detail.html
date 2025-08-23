@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Detail</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="layout.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: black;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        main h1 {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            margin-top: 100px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        #detail {
+            background: rgba(1, 1, 2, 0.10);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(12.5px);
+            box-shadow: inset 0 0 15.5px #4E5ABD;
+        }
+
+        #detail p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        canvas {
+            background: rgba(1, 1, 2, 0.10);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(12.5px);
+            box-shadow: inset 0 0 15.5px #4E5ABD;
+        }
+
+        /* Blur background */
+        .blur {
+            position: absolute;
+            width: 790px;
+            height: 400px;
+            border-radius: 40%;
+            filter: blur(140px);
+            background: rgba(74, 90, 236, 0.16);
+            z-index: 0;
+        }
+
+        .blur-left {
+            top: 120px;
+            left: 250px;
+        }
+
+        .blur-right {
+            top: 120px;
+            right: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sidebar-placeholder"></div>
+    <div id="header-placeholder"></div>
+
+    <!-- blur dekorasi -->
+    <div class="blur blur-left"></div>
+    <div class="blur blur-right"></div>
+
+    <main>
+        <h1>Latest Mortgage Analysis Details</h1>
+        <div id="detail"></div>
+        <canvas id="detailChart" width="800" height="400"></canvas>
+    </main>
+
+    <script type="module">
+        import { loadComponents } from "./main.js";
+        loadComponents();
+
+        // const lastChartData = JSON.parse(localStorage.getItem("lastChartData"));
+        const detailDiv = document.getElementById("detail");
+
+        const principal = localStorage.getItem("principal");
+            const email = localStorage.getItem("googleEmail");
+
+            let userKey = null;
+            if (principal) {
+                userKey = `lastChartData_${principal}`;
+            } else if (email) {
+                userKey = `lastChartData_${email}`;
+            }
+
+            let lastChartData = null;
+            if (userKey) {
+                lastChartData = JSON.parse(localStorage.getItem(userKey));
+            }
+
+
+
+        if (lastChartData) {
+                let html = "<h2>Summary of Analysis Results</h2><ul>";
+                for (const key in lastChartData) {
+                    if (Array.isArray(lastChartData[key])) {
+                        // kalau array, tampilkan panjang & contoh data
+                        html += `<li><b>${key}:</b> ${lastChartData[key].length} data 
+                (contoh: ${lastChartData[key].slice(0, 5).map(v =>
+                            typeof v === "number"
+                                ? "Rp" + v.toLocaleString("id-ID")
+                                : v
+                        ).join(", ")} ... )</li>`;
+                    } else {
+                        // kalau bukan array, tampilkan langsung
+                        html += `<li><b>${key}:</b> ${lastChartData[key]}</li>`;
+                    }
+                }
+                html += "</ul>";
+                detailDiv.innerHTML = html;
+
+                // render chart seperti biasa
+                const ctx = document.getElementById("detailChart").getContext("2d");
+                new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: lastChartData.months,
+                        datasets: [
+                            { label: "Pokok", data: lastChartData.pokok, borderColor: "green" },
+                            { label: "Bunga", data: lastChartData.bunga, borderColor: "red" },
+                            { label: "Penalti", data: lastChartData.penaltiVals, borderColor: "orange" }
+                        ]
+                    },
+                    options: {
+                        plugins: { legend: { labels: { color: "white" } } },
+                        scales: {
+                            x: { ticks: { color: "white" } },
+                            y: { ticks: { color: "white" } }
+                        }
+                    }
+                });
+            } else {
+                detailDiv.innerHTML = "<p>There is no analysis data yet. Please run a simulation.</p>";
+            }
+
+    </script>
+</body>
+
+</html>

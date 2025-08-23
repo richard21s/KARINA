@@ -2,11 +2,136 @@ import { AuthClient } from "@dfinity/auth-client";
 import { createActor } from "./declarations/backend";
 import { renderChart } from "./chart.js";
 
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = "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";
 
 
 let actor;
 let identity;
+
+export async function loadComponents() {
+  const sidebarHtml = await fetch("sidebar.html").then(r => r.text());
+  document.getElementById("sidebar-placeholder").innerHTML = sidebarHtml;
+
+  const headerHtml = await fetch("header.html").then(r => r.text());
+  document.getElementById("header-placeholder").innerHTML = headerHtml;
+
+  initSidebarAndHeader();
+}
+
+function initSidebarAndHeader() {
+  const principal = localStorage.getItem("principal");
+  const token = localStorage.getItem("googleAccessToken");
+  const email = localStorage.getItem("googleEmail");
+  // ✅ Cek login
+  if ((!token && !principal) || !email || !email.includes("@")) {
+    alert("Anda belum login. Silakan login dulu.");
+    window.location.href = "index.html";
+    return;
+  }
+  // ✅ Sidebar toggle
+  const hamburger = document.getElementById('hamburger');
+  const body = document.body;
+  hamburger?.addEventListener('click', () => {
+    body.classList.toggle('sidebar-visible');
+    hamburger.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.sidebar') && !e.target.closest('#hamburger')) {
+      body.classList.remove('sidebar-visible');
+      hamburger?.classList.remove('open');
+    }
+  });
+
+  // ✅ Navigasi sidebar
+  document.querySelector('.home')?.addEventListener('click', () => window.location.href = "home.html");
+  document.querySelector('.main')?.addEventListener('click', () => window.location.href = "analisis.html");
+  document.querySelector('.history')?.addEventListener('click', () => window.location.href = "history.html");
+  document.querySelector('.calendar')?.addEventListener('click', () => window.location.href = "calendar.html");
+
+  // ✅ Tombol logout
+  // document.querySelector('.logout')?.addEventListener('click', async () => {
+  //   localStorage.clear();
+  //   window.location.href = "index.html?logout=" + Date.now();
+  // });
+  // Logout handler
+  document.querySelector('.logout')?.addEventListener('click', async () => {
+    const token = localStorage.getItem("googleAccessToken");
+
+    // Revoke token Google jika tersedia
+    if (token) {
+      try {
+        await fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`, {
+          method: 'GET',
+          mode: 'no-cors'
+        });
+        console.log("✅ Google token revoked");
+      } catch (e) {
+        console.warn("⚠️ Gagal revoke token Google, lanjutkan logout lokal");
+      }
+    }
+
+    // Logout dari Internet Identity (auth-client)
+    try {
+      const authClient = await AuthClient.create();
+      await authClient.logout();
+      console.log("✅ Internet Identity logout sukses");
+    } catch (e) {
+      console.warn("⚠️ Gagal logout Internet Identity:", e);
+    }
+
+    // Bersihkan hanya data login (❌ jangan hapus lastChartData)
+    localStorage.removeItem("googleAccessToken");
+    localStorage.removeItem("registeredEmails");
+    localStorage.removeItem("principal");
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("googleEmail");
+
+    // Redirect ke login page
+    window.location.href = "index.html?logout=" + new Date().getTime();
+  });
+
+
+  const userEmailEl = document.querySelector('.sidebar-username');
+  const avatarEl = document.querySelector('.sidebar-avatar');
+  const welcomeEl = document.querySelector('.welcome'); // <- hanya ada di home
+
+
+  if (token) {
+    fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(user => {
+        // Sidebar
+        if (userEmailEl) userEmailEl.innerText = user.name || user.email;
+        if (avatarEl && user.picture) {
+          const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(user.picture)}`;
+          avatarEl.innerHTML = `<img src="${proxyUrl}" alt="Avatar" />`;
+        }
+
+        // ✅ Khusus home.html → update welcome
+        if (welcomeEl) {
+          welcomeEl.innerText = `Hello, ${user.given_name || user.name || "User"}`;
+        }
+      });
+  } else if (principal) {
+    // Sidebar
+    if (userEmailEl) userEmailEl.innerText = email || `Principal: ${principal}`;
+    if (welcomeEl) {
+      welcomeEl.innerText = `Hello, ${email || "Internet Identity user"}`;
+    }
+    avatarEl.innerHTML = `<img src="https://avatars.githubusercontent.com/u/61081342?s=200&v=4" alt="II" width="40" height="40" style="border-radius: 6px;">`;
+  }
+}
+
+// ✅ Jalankan otomatis saat halaman selesai dimuat
+document.addEventListener("DOMContentLoaded", initSidebarAndHeader);
+
+
+// ⏳ Jalankan otomatis
+loadComponents();
+
 
 async function init() {
   const loggedIn = localStorage.getItem("loggedIn") === "1";
@@ -270,13 +395,30 @@ Tolong jawab dalam format yang jelas dan mudah dipahami oleh non-finansial sekal
       }
       renderChart(ctx, months, pokok, bunga, penaltiVals);
       // Simpan chart terakhir ke localStorage
-      const chartDataToSave = {
-        months,
-        pokok,
-        bunga,
-        penaltiVals
-      };
-      localStorage.setItem("lastChartData", JSON.stringify(chartDataToSave));
+      // const chartDataToSave = {
+      //   months,
+      //   pokok,
+      //   bunga,
+      //   penaltiVals
+      // };
+      // localStorage.setItem("lastChartData", JSON.stringify(chartDataToSave));
+      // Cari identitas user aktif
+      const principal = localStorage.getItem("principal");       // untuk Internet Identity  
+
+      // Tentukan key unik untuk simpan chart
+      let userKey = null;
+      if (principal) {
+        userKey = `lastChartData_${principal}`;
+      } else if (email) {
+        userKey = `lastChartData_${email}`;
+      }
+
+      if (userKey) {
+        const chartDataToSave = { months, pokok, bunga, penaltiVals };
+        localStorage.setItem(userKey, JSON.stringify(chartDataToSave));
+      }
+
+
 
       function updateChartRange(startBulan, endBulan) {
         const filtered = fullSimulasi.filter(([bulan]) => bulan >= startBulan && bulan <= endBulan);

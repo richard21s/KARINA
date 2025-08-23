@@ -3,8 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>KARINA – AI Mortgage Simulation</title>
+  <title>KARINA – Analisis KPR</title>
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/layout.css" />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@600&family=Poppins:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
   <style>
@@ -12,18 +13,17 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Poppins', sans-serif;
     }
 
     body {
       background-color: black;
       color: white;
-      padding: 40px;
       position: relative;
+      font-family: 'Poppins', sans-serif;
     }
 
     .blur {
-      position: absolute;
+      position: fixed;
       width: 600px;
       height: 600px;
       border-radius: 50%;
@@ -33,13 +33,13 @@
     }
 
     .blur-left {
-      top: 200px;
-      left: -200px;
+      top: 100px;
+      left: 200px;
     }
 
     .blur-right {
-      top: 200px;
-      right: -200px;
+      top: 100px;
+      right: 200px;
     }
 
     h2 {
@@ -115,6 +115,7 @@
       background: #fff;
       border-radius: 20px;
     }
+
   </style>
 </head>
 
@@ -122,58 +123,65 @@
   <div class="blur blur-left"></div>
   <div class="blur blur-right"></div>
 
-  <h2>Simulasi KPR & Analisis AI</h2>
+  <!-- Sidebar & Header dimuat otomatis -->
+  <div id="sidebar-placeholder"></div>
+  <div id="header-placeholder"></div>
 
-  <form>
-    <label for="harga">Harga Rumah</label>
-    <input id="harga" type="number" required />
+  <!-- ✅ Konten utama -->
+  <div class="main-content">
+    <h2>Simulasi KPR & Analisis AI</h2>
 
-    <label for="dp">Uang Muka (DP)</label>
-    <input id="dp" type="number" required />
+    <form>
+      <label for="harga">Harga Rumah</label>
+      <input id="harga" type="number" required />
 
-    <label for="tenor">Tenor (tahun)</label>
-    <input id="tenor" type="number" required />
+      <label for="dp">Uang Muka (DP)</label>
+      <input id="dp" type="number" required />
 
-    <label for="cicilan">Cicilan per Bulan</label>
-    <input id="cicilan" type="number" required />
+      <label for="tenor">Tenor (tahun)</label>
+      <input id="tenor" type="number" required />
 
-    <label for="mulai">Tanggal Mulai</label>
-    <input id="mulai" type="date" required />
+      <label for="cicilan">Cicilan per Bulan</label>
+      <input id="cicilan" type="number" required />
 
-    <label for="keterangan">Keterangan (opsional)</label>
-    <input id="keterangan" type="text" placeholder="Contoh: Take Over Bank A ke BTN" />
+      <label for="mulai">Tanggal Mulai</label>
+      <input id="mulai" type="date" required />
 
-    <h3>Skema Bunga</h3>
-    <div id="bungaSkema"></div>
-    <button type="button" id="addSkema">+ Tambah Skema Bunga</button>
+      <label for="keterangan">Keterangan (opsional)</label>
+      <input id="keterangan" type="text" placeholder="Contoh: Take Over Bank A ke BTN" />
 
-    <h3>Pelunasan Ekstra</h3>
-    <div id="pelunasanEkstra"></div>
-    <button type="button" id="addPelunasan">+ Tambah Pelunasan Ekstra</button>
+      <h3>Skema Bunga</h3>
+      <div id="bungaSkema"></div>
+      <button type="button" id="addSkema">+ Tambah Skema Bunga</button>
 
-    <h3>Penalti Pembayaran</h3>
-    <div id="penaltiPembayaran"></div>
-    <button type="button" id="addPenalti">+ Tambah Penalti Pembayaran</button>
+      <h3>Pelunasan Ekstra</h3>
+      <div id="pelunasanEkstra"></div>
+      <button type="button" id="addPelunasan">+ Tambah Pelunasan Ekstra</button>
 
-    <button type="submit">Simpan & Analisa AI</button>
-  </form>
+      <h3>Penalti Pembayaran</h3>
+      <div id="penaltiPembayaran"></div>
+      <button type="button" id="addPenalti">+ Tambah Penalti Pembayaran</button>
 
-  <div style="position: relative; height: 400px; width: 100%; margin-top: 2em;">
-    <canvas id="grafikKPR"></canvas>
+      <button type="submit">Simpan & Analisa AI</button>
+    </form>
+
+    <div style="position: relative; height: 400px; width: 100%; margin-top: 2em;">
+      <canvas id="grafikKPR"></canvas>
+    </div>
+
+    <div class="range-controls">
+      <label for="sliderStart">Bulan ke-</label>
+      <input type="range" id="sliderStart" min="1" value="1" style="width: 150px;">
+      <span id="rangeDisplay">1 – 60</span>
+      <input type="range" id="sliderEnd" min="1" value="60" style="width: 150px;">
+    </div>
+
+    <button onclick="currentChart.resetZoom()">🔄 Reset Zoom</button>
+    <button id="exportCSV">Download CSV</button>
+    <section id="greeting"></section>
   </div>
 
-  <div class="range-controls">
-    <label for="sliderStart">Bulan ke-</label>
-    <input type="range" id="sliderStart" min="1" value="1" style="width: 150px;">
-    <span id="rangeDisplay">1 – 60</span>
-    <input type="range" id="sliderEnd" min="1" value="60" style="width: 150px;">
-  </div>
-
-  <button onclick="currentChart.resetZoom()">🔄 Reset Zoom</button>
-  <button id="exportCSV">Download CSV</button>
-  <section id="greeting"></section>
-
-
+  <!-- ✅ Script -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
   <script type="module" src="main.js"></script>

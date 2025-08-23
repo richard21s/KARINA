@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <title>Histori Simulasi</title>
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/layout.css" />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@600&family=Poppins:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
   <style>
@@ -23,9 +24,9 @@
     }
 
     .blur {
-      position: absolute;
+      position: fixed;
       width: 600px;
-      height: 600px;
+      height: 450px;
       border-radius: 50%;
       filter: blur(140px);
       background: rgba(74, 90, 236, 0.16);
@@ -33,13 +34,13 @@
     }
 
     .blur-left {
-      top: 200px;
-      left: -200px;
+      top: 100px;
+      left: -300px;
     }
 
     .blur-right {
-      top: 200px;
-      right: -200px;
+      top: 100px;
+      right: -300px;
     }
 
     h2 {
@@ -47,6 +48,7 @@
       margin-bottom: 20px;
       z-index: 1;
       position: relative;
+      margin-top: 100px;
     }
 
     button {
@@ -80,6 +82,9 @@
 <body>
   <div class="blur blur-left"></div>
   <div class="blur blur-right"></div>
+
+  <div id="sidebar-placeholder"></div>
+  <div id="header-placeholder"></div>
 
   <h2>Histori Simulasi KPR</h2>
   <button id="lihatHistoriBtn">📜 Lihat Histori KPR Saya</button>

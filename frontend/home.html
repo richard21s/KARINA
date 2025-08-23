@@ -9,62 +9,21 @@
     href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="home.css" />
-  
+  <link rel="stylesheet" href="layout.css" />
 </head>
 
 <body>
-  <!-- ✅ Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-      <div class="sidebar-avatar"></div>
-      <div class="sidebar-username">Anonimous</div>
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-section">MENU</div>
+  <!-- Sidebar & Header dimuat otomatis -->
+  <div id="sidebar-placeholder"></div>
+  <div id="header-placeholder"></div>
+  
+  <div class="blur blur-left"></div>
+  <div class="blur blur-right"></div>
 
-      <div class="sidebar-item">
-        <div class="sidebar-icon"></div>
-        <div class="sidebar-label">Home</div>
-      </div>
-
-      <div class="sidebar-item main">
-        <div class="sidebar-icon"></div>
-        <div class="sidebar-label">AI Mortgage Simulation</div>
-      </div>
-
-      <div class="sidebar-item history">
-        <div class="sidebar-icon"></div>
-        <div class="sidebar-label">History</div>
-      </div>
-
-      <div class="sidebar-item calendar">
-        <div class="sidebar-icon"></div>
-        <div class="sidebar-label">Calendar</div>
-      </div>
-
-      <div class="sidebar-item logout">
-        <div class="sidebar-icon"></div>
-        <div class="sidebar-label">Log Out</div>
-      </div>
-    </div>
-  </aside>
 
   <!-- ✅ Konten utama -->
   <div class="container">
     <div class="main-content">
-      <!-- ✅ Header -->
-      <header class="header">
-        <!-- Hamburger pindah ke sini -->
-        <div class="header-left">
-          <div id="hamburger" class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="logo">KARINA</div>
-        </div>
-        <button class="contact-btn">Contact Us</button>
-      </header>
-
       <!-- Hero Section -->
       <section class="hero">
         <h1>Welcome back to</h1>
@@ -73,14 +32,31 @@
         <div class="tagline">“Start a new simulation or continue from your last analysis history.”</div>
       </section>
 
+      <div class="blur2 blur-left2"></div>
+      <div class="blur2 blur-right2"></div>
+
       <!-- Last Analysis -->
-      <section>
+      <!-- <section>
         <h2 class="section-title">Your Last Mortgage Analysis</h2>
         <div style="display: flex; justify-content: center; margin-top: 20px;">
           <button class="check-btn">Check It</button>
         </div>
         <img class="history-img" src="https://placehold.co/735x466" alt="Simulation Result" />
+      </section> -->
+
+      <section>
+        <h2 class="section-title">Your Last Mortgage Analysis</h2>
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+          <button class="check-btn" onclick="location.href='analysis-detail.html'">Check It</button>
+        </div>
+        <div id="chartContainer">
+          <canvas id="lastAnalysisChart"></canvas>
+        </div>
       </section>
+
+
+      <div class="blur3 blur-left3"></div>
+      <div class="blur3 blur-right3"></div>
 
       <!-- Quick Actions -->
       <section>
@@ -108,7 +84,7 @@
       <footer class="footer">
         <div class="footer-columns">
           <div class="footer-column">
-            <div class="logo" style="letter-spacing: 10px; font-size: 20px;">KARINA</div>
+            <div class="logo" style="letter-spacing: 10px; font-size: 20px; margin-top: 28px;">KARINA</div>
           </div>
           <div class="footer-column">
             <h4>Quick links</h4>
@@ -140,132 +116,93 @@
             <input type="email" placeholder="Your email address" />
           </div>
         </div>
-        <div class="footer-bottom">
-          © 2025. All rights reserved.
-        </div>
+        <div class="footer-bottom">© 2025. All rights reserved.</div>
       </footer>
     </div>
   </div>
 
-  <!-- ✅ Script toggle sidebar -->
+  <!-- ✅ Script
+  <script type="module" src="main.js"></script> -->
+  <!-- ✅ Script -->
   <script type="module">
-    import { AuthClient } from "https://cdn.jsdelivr.net/npm/@dfinity/auth-client@latest/+esm";
-    const principal = localStorage.getItem("principal");
-    const token = localStorage.getItem("googleAccessToken");
-    const email = localStorage.getItem("googleEmail"); // Sama untuk Google & II
-    const userEmailEl = document.querySelector('.sidebar-username');
-    const welcomeEl = document.querySelector('.welcome');
-    const avatarEl = document.querySelector('.sidebar-avatar');
-
-    // Cek login & email
-    if ((!token && !principal) || !email || !email.includes("@")) {
-      alert("Anda belum login atau belum mengisi email. Silakan login terlebih dahulu.");
-      window.location.href = "index.html";
-    } else if (token) {
-      // Google login
-      fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(response => {
-          if (!response.ok) throw new Error("Token tidak valid atau expired");
-          return response.json();
-        })
-        .then(user => {
-          console.log("✅ Google user info:", user);
-          localStorage.setItem("email", user.email); // Opsional: bisa dipakai untuk fitur lain
-          userEmailEl.innerText = user.name || user.email;
-          welcomeEl.innerText = `Hello, ${user.given_name || user.name || "User"}`;
-          if (user.picture) {
-            avatarEl.innerHTML = `<img src="${user.picture}" alt="Avatar" />`;
-          }
-        })
-        .catch(err => {
-          console.error("❌ Gagal mengambil user info Google:", err);
-          alert("Login expired atau gagal ambil data. Silakan login ulang.");
-          window.location.href = "index.html";
-        });
-    } else if (principal) {
-      // Internet Identity login
-      console.log("✅ Internet Identity principal:", principal);
+    import { loadComponents } from "./main.js";
+    loadComponents(); // ini sudah otomatis muat sidebar, header, & update user info
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // const lastChartData = JSON.parse(localStorage.getItem("lastChartData"));
+      const principal = localStorage.getItem("principal");
       const email = localStorage.getItem("googleEmail");
-      userEmailEl.innerText = email || `Principal: ${principal}`;
-      welcomeEl.innerText = `Hello, ${email || "Internet Identity user"}`;
-      avatarEl.innerHTML = `<img src="https://avatars.githubusercontent.com/u/61081342?s=200&v=4" alt="II" width="40" height="40" style="border-radius: 6px;">`;
-    }
 
-    // Sidebar toggle
-    const hamburger = document.getElementById('hamburger');
-    const body = document.body;
-
-    hamburger.addEventListener('click', () => {
-      body.classList.toggle('sidebar-visible');
-      hamburger.classList.toggle('open');
-    });
-
-    document.addEventListener('click', (e) => {
-      const isClickInsideSidebar = e.target.closest('.sidebar');
-      const isClickOnHamburger = e.target.closest('#hamburger');
-
-      if (!isClickInsideSidebar && !isClickOnHamburger) {
-        body.classList.remove('sidebar-visible');
-        hamburger.classList.remove('open');
+      let userKey = null;
+      if (principal) {
+        userKey = `lastChartData_${principal}`;
+      } else if (email) {
+        userKey = `lastChartData_${email}`;
       }
-    });
 
-    document.querySelector('.main')?.addEventListener('click', () => {
-      window.location.href = "analisis.html";
-    });
-    document.querySelector('.history')?.addEventListener('click', () => {
-      window.location.href = "history.html";
-    });
-    document.querySelector('.calendar')?.addEventListener('click', () => {
-      window.location.href = "calendar.html";
-    });
+      let lastChartData = null;
+      if (userKey) {
+        lastChartData = JSON.parse(localStorage.getItem(userKey));
+      }
 
-    // Logout handler
-      document.querySelector('.logout')?.addEventListener('click', async () => {
-          const token = localStorage.getItem("googleAccessToken");
-          const principal = localStorage.getItem("principal");
 
-          // Revoke token Google jika tersedia
-          if (token) {
-            try {
-              await fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`, {
-                method: 'GET',
-                mode: 'no-cors'
-              });
-              console.log("✅ Google token revoked");
-            } catch (e) {
-              console.warn("⚠️ Gagal revoke token Google, lanjutkan logout lokal");
+
+      if (lastChartData) {
+        const ctx = document.getElementById("lastAnalysisChart").getContext("2d");
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: lastChartData.months,
+            datasets: [
+              {
+                label: "Pokok",
+                data: lastChartData.pokok,
+                borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                fill: true,
+                tension: 0.3
+              },
+              {
+                label: "Bunga",
+                data: lastChartData.bunga,
+                borderColor: "rgba(255, 99, 132, 1)",
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                fill: true,
+                tension: 0.3
+              },
+              {
+                label: "Penalti",
+                data: lastChartData.penaltiVals,
+                borderColor: "rgba(255, 206, 86, 1)",
+                backgroundColor: "rgba(255, 206, 86, 0.2)",
+                fill: true,
+                tension: 0.3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: true },
+              tooltip: { enabled: true }
+            },
+            scales: {
+              x: { title: { display: true, text: "Bulan" } },
+              y: { title: { display: true, text: "Rp" } }
             }
           }
-
-          // Logout dari Internet Identity (auth-client)
-          try {
-            const authClient = await AuthClient.create();
-            await authClient.logout();
-            console.log("✅ Internet Identity logout sukses");
-          } catch (e) {
-            console.warn("⚠️ Gagal logout Internet Identity:", e);
-          }
-
-          // Bersihkan semua data dari localStorage
-          localStorage.removeItem("googleAccessToken");
-          localStorage.removeItem("registeredEmails");
-          localStorage.removeItem("principal");
-          localStorage.removeItem("loggedIn");
-          localStorage.removeItem("googleEmail"); // gunakan 1 key untuk semua email pengguna
-
-          // Redirect ke login page dan hindari cache
-          window.location.href = "index.html?logout=" + new Date().getTime();
         });
-
-
+      } else {
+        document.getElementById("lastAnalysisChart").outerHTML =
+          "<p style='text-align:center;margin-top:20px;'>There is no analysis yet. Run a simulation first on the AI Mortgage Simulation.</p>";
+      }
+    });
   </script>
 
 
+  </script>
 
 </body>
 

@@ -11,17 +11,26 @@
       margin: 0;
       background: black;
       font-family: 'Poppins', sans-serif;
-      overflow: hidden;
+      overflow-y: auto;
+    }
+    .blur {
+      position: fixed;
+      width: 600px;
+      height: 450px;
+      border-radius: 40%;
+      filter: blur(140px);
+      background: rgba(74, 90, 236, 0.16);
+      z-index: 0;
     }
 
-    .blur-circle {
-      width: 600px;
-      height: 600px;
-      position: absolute;
-      background: rgba(74, 90, 236, 0.16);
-      box-shadow: 280px 280px 280px rgba(74, 90, 236, 0.16);
-      border-radius: 9999px;
-      filter: blur(140px);
+    .blur-left {
+      top: 100px;
+      left: -300px;
+    }
+
+    .blur-right {
+      top: 100px;
+      right: -300px;
     }
 
     .form-box {
@@ -123,9 +132,8 @@
 </head>
 
 <body>
-  <!-- Background circles -->
-  <div class="blur-circle" style="left: -200px; top: 219px;"></div>
-  <div class="blur-circle" style="left: 1045px; top: 219px;"></div>
+  <div class="blur blur-left"></div>
+  <div class="blur blur-right"></div>
 
   <!-- Branding -->
   <div class="brand">KARINA</div>
@@ -146,14 +154,14 @@
 
     <!-- Internet Identity Login -->
     <button class="button-google" id="ii-signin">
-      <img src="https://identitysupport.dfinity.org/hc/theming_assets/01HZPAQP10D0TDE2HSZH52B5EF" alt="II" width="24" height="24"
+      <img src="https://brandlogo.org/wp-content/uploads/2025/05/Internet-Computer-ICP-Icon-2021.png.webp" alt="II" width="24" height="24"
         style="border-radius: 6px;">
       Login with Internet Identity
     </button>
 
     <!-- Google OAuth Login -->
     <button class="button-google" id="google-signin">
-      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" width="24" height="24"
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="Google" width="24" height="24"
         style="border-radius: 6px;">
       Continue with Google
     </button>

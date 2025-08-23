@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <title>Kalender KPR – KARINA</title>
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/layout.css" />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@600&family=Poppins:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
   <style>
@@ -34,12 +35,12 @@
     }
 
     .blur-left {
-      top: 200px;
+      top: 100px;
       left: -200px;
     }
 
     .blur-right {
-      top: 200px;
+      top: 100px;
       right: -200px;
     }
 
@@ -48,6 +49,7 @@
       margin-bottom: 20px;
       z-index: 1;
       position: relative;
+      margin-top: 100px;
     }
 
     button {
@@ -72,6 +74,16 @@
       position: relative;
       max-width: 600px;
     }
+
+    .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  text-align: center;
+}
+
   </style>
 </head>
 
@@ -79,10 +91,15 @@
   <div class="blur blur-left"></div>
   <div class="blur blur-right"></div>
 
-  <h2>Tambahkan Jadwal Cicilan ke Kalender</h2>
-  <button id="downloadICS">📅 Tambahkan Jadwal ke Kalender</button>
-  <p>File ini berisi semua cicilan KPR kamu. Setelah diunduh, <b>klik dua kali</b> atau <b>impor ke Google Calendar</b>.
-  </p>
+<div id="sidebar-placeholder"></div>
+<div id="header-placeholder"></div>
+
+  <div class="content-wrapper">
+    <h2>Tambahkan Jadwal Cicilan ke Kalender</h2>
+    <button id="downloadICS">📅 Tambahkan Jadwal ke Kalender</button>
+    <p>File ini berisi semua cicilan KPR kamu. Setelah diunduh, <b>klik dua kali</b> atau <b>impor ke Google Calendar</b>.
+    </p>
+  </div>
 
   <script type="module" src="/main.js"></script>
 </body>
