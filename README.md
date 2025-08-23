@@ -38,18 +38,58 @@ Many people struggle to clearly plan their home financing — especially underst
 ## 📂 Project Structure
 ```
 KARINA/
+├── .devcontainer/               # VS Code Dev Container config
+│   └── devcontainer.json
 │
-├── backend/            # Contains mortgage simulation logic in Motoko
+├── .dfx/                       
+│   └── local/
+│       └── canisters/
+│           └── backend/
+│               ├── backend.did
+│               ├── backend.most
+│               ├── backend.old.most
+│               ├── backend.wasm
+│               ├── constructor.did
+│               ├── index.js
+│               ├── init_args.txt
+│               ├── service.did
+│               └── service.did.js
+│
+├── .mops/                       # Dependencies Motoko
+│   └── base@0.14.9/
+│       └── src/
+│           ├── Array.mo
+│           ├── Blob.mo
+│           └── ... (file Motoko standar)
+│
+├── backend/                    
 │   └── app.mo
 │
-├── frontend/           # Contains user interface (HTML, JS, CSS)
-│   ├── index.html
-│   ├── main.js
-│   └── styles.css
+├── frontend/                   
+│   ├── index.html               
+│   ├── analisis.html
+│   ├── calendar.html
+│   ├── auth.js
+│   ├── chart.js
+│   ├── styles.css             
+│   └── declarations/          
+│       └── backend/
+│           ├── backend.did
+│           ├── backend.most
+│           ├── service.did
+│           └── service.did.js
 │
-├── dfx.json            # Internet Computer configuration
-├── mops.toml           # Motoko dependency management
-└── README.md           # Project documentation
+├── dfx.json                    
+├── mops.toml                   
+├── package.json                
+├── vite.config.js              
+├── .env                         
+├── dfx_deploy_auto.sh          
+├── dfx_reset.sh                
+├── .gitignore                  
+├── README.md                    
+└── BUILD.md                    
+
 ```
 ---
 
